@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+#!/usr/bin / env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { AppStack } from '../lib/appStack';
+import { CdkCodePipelineStack } from '../pipeline/pipelineStack';
 import { EnvConfig, getEnvConfig } from './config/envConfig';
 
 const app = new cdk.App();
@@ -17,8 +17,8 @@ if (envType === undefined)
 const envConfig: EnvConfig = getEnvConfig(envType)
 
 // スタックを作成
-new AppStack(app, 'CDKPipelinesStack', {
-  stackName: `${envType}-App-Stack`,  // Stack名に環境名を含め重複防止
+new CdkCodePipelineStack(app, 'CDKPipelinesStack', {
+  stackName: `${envType}-CDK-CodePipeline-Stack`,  // Stack名に環境名を含め重複防止
   env: envConfig,  // アカウントID、リージョンを設定
   terminationProtection: true,  // Stackの削除保護を有効化
   envType: envType  // contextをStackに引き継ぐ

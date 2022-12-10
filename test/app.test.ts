@@ -1,17 +1,45 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as App from '../lib/app-stack';
+import * as cdk from "aws-cdk-lib";
+import { Template } from "aws-cdk-lib/assertions";
+import { AppStack } from "../lib/appStack";
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/app-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new App.AppStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+// devのsnapshotテスト
+test("snapshot test dev", () => {
+  const app = new cdk.App();
+
+  const stack = new AppStack(app, "Stack",
+    {
+      envType: 'dev'
+    });
+
+  const template = Template.fromStack(stack).toJSON();
+  expect(template).toMatchSnapshot();
+});
+
+
+// stgのsnapshotテスト
+test("snapshot test stg", () => {
+  const app = new cdk.App();
+
+  const stack = new AppStack(app, "Stack",
+    {
+      envType: 'stg'
+    });
+
+  const template = Template.fromStack(stack).toJSON();
+  expect(template).toMatchSnapshot();
+});
+
+
+// prdのsnapshotテスト
+test("snapshot test prd", () => {
+  const app = new cdk.App();
+
+  const stack = new AppStack(app, "Stack",
+    {
+      envType: 'prd'
+    });
+
+  const template = Template.fromStack(stack).toJSON();
+  expect(template).toMatchSnapshot();
 });
