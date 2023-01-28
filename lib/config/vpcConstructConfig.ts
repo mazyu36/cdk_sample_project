@@ -12,7 +12,7 @@ export function getVpcConstructConfig(envType: string): VpcConstructConfig {
       }
     case 'stg':
       return {
-        cidr: '10.0.0.0/16',
+        cidr: '10.1.0.0/16',
         maxAzs: 2
       }
     case 'prd':
