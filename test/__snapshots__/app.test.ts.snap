@@ -684,7 +684,7 @@ Object {
   "Resources": Object {
     "Vpc8378EB38": Object {
       "Properties": Object {
-        "CidrBlock": "10.0.0.0/16",
+        "CidrBlock": "10.1.0.0/16",
         "EnableDnsHostnames": true,
         "EnableDnsSupport": true,
         "InstanceTenancy": "default",
@@ -743,7 +743,7 @@ Object {
             },
           ],
         },
-        "CidrBlock": "10.0.128.0/18",
+        "CidrBlock": "10.1.128.0/18",
         "MapPublicIpOnLaunch": false,
         "Tags": Array [
           Object {
@@ -800,7 +800,7 @@ Object {
             },
           ],
         },
-        "CidrBlock": "10.0.192.0/18",
+        "CidrBlock": "10.1.192.0/18",
         "MapPublicIpOnLaunch": false,
         "Tags": Array [
           Object {
@@ -872,7 +872,7 @@ Object {
             },
           ],
         },
-        "CidrBlock": "10.0.0.0/18",
+        "CidrBlock": "10.1.0.0/18",
         "MapPublicIpOnLaunch": true,
         "Tags": Array [
           Object {
@@ -944,7 +944,7 @@ Object {
             },
           ],
         },
-        "CidrBlock": "10.0.64.0/18",
+        "CidrBlock": "10.1.64.0/18",
         "MapPublicIpOnLaunch": true,
         "Tags": Array [
           Object {
