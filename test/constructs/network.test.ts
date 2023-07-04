@@ -1,6 +1,6 @@
 import { createTemplate } from "../createTemplate";
 
-describe("vpcConstruct test prd", () => {
+describe("network test prd", () => {
 
   test("VPC", () => {
     const template = createTemplate('prd')
@@ -25,7 +25,7 @@ describe("vpcConstruct test prd", () => {
 )
 
 
-describe("vpcConstruct test stg", () => {
+describe("network test stg", () => {
 
   test("VPC", () => {
     const template = createTemplate('stg')

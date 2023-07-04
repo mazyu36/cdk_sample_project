@@ -3,44 +3,36 @@ export type EnvConfig = {
     region: string  // デプロイ先のリージョン
 }
 
-export function getEnvConfig(envType: string): EnvConfig {
-    let account: string = '';
-    let region: string = 'ap-northeast-1'; //東京リージョン固定にしているが、別のリージョンにもデプロイしたい場合はcontext値を元に振り分けを実施する。
-
-    // 環境によりアカウントIDを分岐
-    switch (envType) {
+export function getEnvConfig(envName: string): EnvConfig {
+    switch (envName) {
         case 'dev':
-            account = "xxxxxxxxxxx";
-            break
+            return {
+                account: '',
+                region: 'ap-northeast-1'
+            }
         case 'stg':
-            account = "xxxxxxxxxxx";
-            break
+            return {
+                account: '',
+                region: 'ap-northeast-1'
+            }
         case 'prd':
-            account = "xxxxxxxxxxx";
-            break;
+            return {
+                account: '',
+                region: 'ap-northeast-1'
+            }
         case 'infraA':
-            account = "xxxxxxxxxxx";
-            break
+            return {
+                account: '',
+                region: 'ap-northeast-1'
+            }
         case 'infraB':
-            account = "xxxxxxxxxxx";
-            break
+            return {
+                account: '',
+                region: 'ap-northeast-1'
+            }
         default:
             throw new Error(
-                `The Env config in "${envType}" environment does not exist.`
+                `EnvConfig does not exist. envName:${envName}`
             )
     }
-
-    // アカウントIDが未設定の場合エラー
-    if (account == undefined) {
-        throw new Error(
-            'Context value env is invalid (use "dev", "stg", "prd", "infraA")'
-        )
-    }
-
-    // アカウントIDおよびリージョンを返却
-    return {
-        account,
-        region
-    }
-
 }

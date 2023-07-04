@@ -8,9 +8,31 @@ Object {
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-5.10-x86_64",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
   },
   "Resources": Object {
-    "Vpc8378EB38": Object {
+    "NetworkEC2SgD140AE73": Object {
+      "Properties": Object {
+        "GroupDescription": "Stack/Network/EC2Sg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkVpc7FB7348F": Object {
       "Properties": Object {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
@@ -25,7 +47,7 @@ Object {
       },
       "Type": "AWS::EC2::VPC",
     },
-    "VpcIGWD7BA715C": Object {
+    "NetworkVpcIGW6BEA7B02": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
@@ -36,32 +58,32 @@ Object {
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "VpcIsolatedSubnet1RouteTable4771E3E5": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "Vpc8378EB38",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VpcIsolatedSubnet1RouteTableAssociationD300FCBB": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableAssociation95EB126D": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet1RouteTable4771E3E5",
+          "Ref": "NetworkVpcIsolatedSubnet1RouteTableC39A3F61",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet1SubnetE48C5737",
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet1SubnetE48C5737": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableC39A3F61": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkVpcIsolatedSubnet1Subnet0400477E": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -84,41 +106,41 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcIsolatedSubnet2RouteTable1D30AF7D": Object {
+    "NetworkVpcIsolatedSubnet2RouteTable77E6320E": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcIsolatedSubnet2RouteTableAssociationF7B18CCA": Object {
+    "NetworkVpcIsolatedSubnet2RouteTableAssociationC53FE45A": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet2RouteTable1D30AF7D",
+          "Ref": "NetworkVpcIsolatedSubnet2RouteTable77E6320E",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet2Subnet16364B91",
+          "Ref": "NetworkVpcIsolatedSubnet2SubnetF65B365A",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet2Subnet16364B91": Object {
+    "NetworkVpcIsolatedSubnet2SubnetF65B365A": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -141,56 +163,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet1DefaultRoute3DA9E72A": Object {
+    "NetworkVpcPublicSubnet1DefaultRoute31EC04EC": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet1RouteTable6C95E38E": Object {
+    "NetworkVpcPublicSubnet1RouteTable30235CE2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet1RouteTableAssociation97140677": Object {
+    "NetworkVpcPublicSubnet1RouteTableAssociation643926C7": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+          "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet1Subnet5C2D37C4": Object {
+    "NetworkVpcPublicSubnet1Subnet36933139": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -213,56 +235,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet2DefaultRoute97F91067": Object {
+    "NetworkVpcPublicSubnet2DefaultRoute0CF082AB": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet2RouteTable94F7E489": Object {
+    "NetworkVpcPublicSubnet2RouteTable0FACEBB2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet2RouteTableAssociationDD5762D8": Object {
+    "NetworkVpcPublicSubnet2RouteTableAssociationC662643B": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+          "Ref": "NetworkVpcPublicSubnet2SubnetC427CCE0",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet2Subnet691E08A3": Object {
+    "NetworkVpcPublicSubnet2SubnetC427CCE0": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -285,25 +307,101 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcVPCGWBF912B6E": Object {
+    "NetworkVpcVPCGW8F3799B5": Object {
       "Properties": Object {
         "InternetGatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "ServerInstanceE518391B": Object {
+      "DependsOn": Array [
+        "ServerInstanceInstanceRoleF9CE4B3B",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "ServerInstanceInstanceProfile5CC6E324",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.small",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkEC2SgD140AE73",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "ServerInstanceInstanceProfile5CC6E324": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "ServerInstanceInstanceRoleF9CE4B3B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "ServerInstanceInstanceRoleF9CE4B3B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
   },
   "Rules": Object {
@@ -344,9 +442,31 @@ Object {
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-5.10-x86_64",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
   },
   "Resources": Object {
-    "Vpc8378EB38": Object {
+    "NetworkEC2SgD140AE73": Object {
+      "Properties": Object {
+        "GroupDescription": "Stack/Network/EC2Sg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkVpc7FB7348F": Object {
       "Properties": Object {
         "CidrBlock": "10.2.0.0/16",
         "EnableDnsHostnames": true,
@@ -361,7 +481,7 @@ Object {
       },
       "Type": "AWS::EC2::VPC",
     },
-    "VpcIGWD7BA715C": Object {
+    "NetworkVpcIGW6BEA7B02": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
@@ -372,32 +492,32 @@ Object {
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "VpcIsolatedSubnet1RouteTable4771E3E5": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "Vpc8378EB38",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VpcIsolatedSubnet1RouteTableAssociationD300FCBB": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableAssociation95EB126D": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet1RouteTable4771E3E5",
+          "Ref": "NetworkVpcIsolatedSubnet1RouteTableC39A3F61",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet1SubnetE48C5737",
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet1SubnetE48C5737": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableC39A3F61": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkVpcIsolatedSubnet1Subnet0400477E": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -420,41 +540,41 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcIsolatedSubnet2RouteTable1D30AF7D": Object {
+    "NetworkVpcIsolatedSubnet2RouteTable77E6320E": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcIsolatedSubnet2RouteTableAssociationF7B18CCA": Object {
+    "NetworkVpcIsolatedSubnet2RouteTableAssociationC53FE45A": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet2RouteTable1D30AF7D",
+          "Ref": "NetworkVpcIsolatedSubnet2RouteTable77E6320E",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet2Subnet16364B91",
+          "Ref": "NetworkVpcIsolatedSubnet2SubnetF65B365A",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet2Subnet16364B91": Object {
+    "NetworkVpcIsolatedSubnet2SubnetF65B365A": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -477,56 +597,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet1DefaultRoute3DA9E72A": Object {
+    "NetworkVpcPublicSubnet1DefaultRoute31EC04EC": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet1RouteTable6C95E38E": Object {
+    "NetworkVpcPublicSubnet1RouteTable30235CE2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet1RouteTableAssociation97140677": Object {
+    "NetworkVpcPublicSubnet1RouteTableAssociation643926C7": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+          "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet1Subnet5C2D37C4": Object {
+    "NetworkVpcPublicSubnet1Subnet36933139": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -549,56 +669,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet2DefaultRoute97F91067": Object {
+    "NetworkVpcPublicSubnet2DefaultRoute0CF082AB": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet2RouteTable94F7E489": Object {
+    "NetworkVpcPublicSubnet2RouteTable0FACEBB2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet2RouteTableAssociationDD5762D8": Object {
+    "NetworkVpcPublicSubnet2RouteTableAssociationC662643B": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+          "Ref": "NetworkVpcPublicSubnet2SubnetC427CCE0",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet2Subnet691E08A3": Object {
+    "NetworkVpcPublicSubnet2SubnetC427CCE0": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -621,25 +741,101 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcVPCGWBF912B6E": Object {
+    "NetworkVpcVPCGW8F3799B5": Object {
       "Properties": Object {
         "InternetGatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "ServerInstanceE518391B": Object {
+      "DependsOn": Array [
+        "ServerInstanceInstanceRoleF9CE4B3B",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "ServerInstanceInstanceProfile5CC6E324",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.large",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkEC2SgD140AE73",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "ServerInstanceInstanceProfile5CC6E324": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "ServerInstanceInstanceRoleF9CE4B3B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "ServerInstanceInstanceRoleF9CE4B3B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
   },
   "Rules": Object {
@@ -680,9 +876,31 @@ Object {
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ami-amazon-linux-latest/al2022-ami-kernel-5.10-x86_64",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
   },
   "Resources": Object {
-    "Vpc8378EB38": Object {
+    "NetworkEC2SgD140AE73": Object {
+      "Properties": Object {
+        "GroupDescription": "Stack/Network/EC2Sg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkVpc7FB7348F": Object {
       "Properties": Object {
         "CidrBlock": "10.1.0.0/16",
         "EnableDnsHostnames": true,
@@ -697,7 +915,7 @@ Object {
       },
       "Type": "AWS::EC2::VPC",
     },
-    "VpcIGWD7BA715C": Object {
+    "NetworkVpcIGW6BEA7B02": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
@@ -708,32 +926,32 @@ Object {
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "VpcIsolatedSubnet1RouteTable4771E3E5": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "Vpc8378EB38",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VpcIsolatedSubnet1RouteTableAssociationD300FCBB": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableAssociation95EB126D": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet1RouteTable4771E3E5",
+          "Ref": "NetworkVpcIsolatedSubnet1RouteTableC39A3F61",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet1SubnetE48C5737",
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet1SubnetE48C5737": Object {
+    "NetworkVpcIsolatedSubnet1RouteTableC39A3F61": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkVpcIsolatedSubnet1Subnet0400477E": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -756,41 +974,41 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet1",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcIsolatedSubnet2RouteTable1D30AF7D": Object {
+    "NetworkVpcIsolatedSubnet2RouteTable77E6320E": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcIsolatedSubnet2RouteTableAssociationF7B18CCA": Object {
+    "NetworkVpcIsolatedSubnet2RouteTableAssociationC53FE45A": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcIsolatedSubnet2RouteTable1D30AF7D",
+          "Ref": "NetworkVpcIsolatedSubnet2RouteTable77E6320E",
         },
         "SubnetId": Object {
-          "Ref": "VpcIsolatedSubnet2Subnet16364B91",
+          "Ref": "NetworkVpcIsolatedSubnet2SubnetF65B365A",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcIsolatedSubnet2Subnet16364B91": Object {
+    "NetworkVpcIsolatedSubnet2SubnetF65B365A": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -813,56 +1031,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/IsolatedSubnet2",
+            "Value": "Stack/Network/Vpc/IsolatedSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet1DefaultRoute3DA9E72A": Object {
+    "NetworkVpcPublicSubnet1DefaultRoute31EC04EC": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet1RouteTable6C95E38E": Object {
+    "NetworkVpcPublicSubnet1RouteTable30235CE2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet1RouteTableAssociation97140677": Object {
+    "NetworkVpcPublicSubnet1RouteTableAssociation643926C7": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+          "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet1Subnet5C2D37C4": Object {
+    "NetworkVpcPublicSubnet1Subnet36933139": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -885,56 +1103,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet1",
+            "Value": "Stack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet2DefaultRoute97F91067": Object {
+    "NetworkVpcPublicSubnet2DefaultRoute0CF082AB": Object {
       "DependsOn": Array [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet2RouteTable94F7E489": Object {
+    "NetworkVpcPublicSubnet2RouteTable0FACEBB2": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet2RouteTableAssociationDD5762D8": Object {
+    "NetworkVpcPublicSubnet2RouteTableAssociationC662643B": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
         "SubnetId": Object {
-          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+          "Ref": "NetworkVpcPublicSubnet2SubnetC427CCE0",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet2Subnet691E08A3": Object {
+    "NetworkVpcPublicSubnet2SubnetC427CCE0": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -957,25 +1175,101 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "Stack/Vpc/PublicSubnet2",
+            "Value": "Stack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcVPCGWBF912B6E": Object {
+    "NetworkVpcVPCGW8F3799B5": Object {
       "Properties": Object {
         "InternetGatewayId": Object {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "VpcId": Object {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "ServerInstanceE518391B": Object {
+      "DependsOn": Array [
+        "ServerInstanceInstanceRoleF9CE4B3B",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "ServerInstanceInstanceProfile5CC6E324",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2022amikernel510x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.large",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkEC2SgD140AE73",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkVpcIsolatedSubnet1Subnet0400477E",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "ServerInstanceInstanceProfile5CC6E324": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "ServerInstanceInstanceRoleF9CE4B3B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "ServerInstanceInstanceRoleF9CE4B3B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
   },
   "Rules": Object {

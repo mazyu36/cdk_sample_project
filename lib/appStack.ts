@@ -1,19 +1,25 @@
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { VpcConstruct } from './constructs/vpcConstruct';
+import { Network } from './constructs/network';
+import { Server } from './constructs/server';
 
-// StackPropsを拡張しAppからenvTypeを注入
+
+// AppからenvNameを引き継ぎ
 interface AppStackProps extends StackProps {
-  envType: string
+  envName: string
 }
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props);
 
-    // VPCを生成
-    new VpcConstruct(this, 'VpcConstruct', {
-      envType: props.envType
+    const network = new Network(this, 'Network', {
+      envName: props.envName
+    })
+
+    new Server(this, 'Server', {
+      envName: props.envName,
+      network: network
     })
   }
 }
