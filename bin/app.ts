@@ -6,24 +6,22 @@ import { EnvConfig, getEnvConfig } from './config/envConfig';
 
 const app = new cdk.App();
 
-// デプロイ先の環境はcontextから取得する
-const envType = app.node.tryGetContext('env');
+// contextからデプロイ対象の環境を取得
+const envName = app.node.tryGetContext('env');
 
-// contextで`env`が指定されていない場合はエラーにする
-if (envType === undefined)
+if (!envName)
   throw new Error(`Please specify environment with context option. ex) cdk deploy -c env=dev`);
 
-// contextを元に環境設定（デプロイ先のアカウントID、リージョン）を取得する
-const envConfig: EnvConfig = getEnvConfig(envType)
+// 対応する設定値を取得
+const envConfig: EnvConfig = getEnvConfig(envName)
 
-// スタックを作成
-new AppStack(app, 'CDKPipelinesStack', {
-  stackName: `${envType}-App-Stack`,  // Stack名に環境名を含め重複防止
-  env: envConfig,  // アカウントID、リージョンを設定
-  terminationProtection: true,  // Stackの削除保護を有効化
-  envType: envType  // contextをStackに引き継ぐ
+// Stackを作成
+new AppStack(app, 'AppStack', {
+  stackName: `${envName}-App-Stack`,
+  env: envConfig,
+  terminationProtection: false,
+  envName: envName
 })
 
-// タグに環境名を付与
-const envTagName = 'Environment';
-cdk.Tags.of(app).add(envTagName, envType);
+// タグを付与
+cdk.Tags.of(app).add('Environment', envName);

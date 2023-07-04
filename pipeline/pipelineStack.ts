@@ -14,7 +14,7 @@ import { aws_sns as sns } from 'aws-cdk-lib';
 import { getCdkCodeBuildSpecDeployConfig, getCdkCodeBuildSpecTestConfig, getCdkCodePipelineConfig } from "./config/pipelineConfig";
 
 interface CdkCodePipelineStackProps extends StackProps {
-  envType: string,
+  envName: string,
 }
 
 export class CdkCodePipelineStack extends Stack {
@@ -22,7 +22,7 @@ export class CdkCodePipelineStack extends Stack {
     super(scope, id, props);
 
     // Configを取得
-    const cdkCodePipelineConfig = getCdkCodePipelineConfig(props.envType)
+    const cdkCodePipelineConfig = getCdkCodePipelineConfig(props.envName)
 
     //--------------CodePipelineを定義----------------
     // kmsキーを作成
@@ -33,13 +33,13 @@ export class CdkCodePipelineStack extends Stack {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.KMS,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      bucketName: `${props.envType}-bucket-cdk-codepipeline-artifact`,
+      bucketName: `${props.envName}-bucket-cdk-codepipeline-artifact`,
       autoDeleteObjects: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
     const cdkCodePipeline = new codepipeline.Pipeline(this, 'CDKPipeline', {
-      pipelineName: `${props.envType}-CDK-CodePipeline`,
+      pipelineName: `${props.envName}-CDK-CodePipeline`,
       artifactBucket: cdkArtifactBucket
     });
 
@@ -79,10 +79,10 @@ export class CdkCodePipelineStack extends Stack {
 
 
     //--------------CodeBuild（テスト）----------------
-    const cdkBuildSpecTestConfig = getCdkCodeBuildSpecTestConfig(props.envType)
+    const cdkBuildSpecTestConfig = getCdkCodeBuildSpecTestConfig(props.envName)
 
     const cdkTestProject = new codebuild.PipelineProject(this, 'CDKTestProject', {
-      projectName: `${props.envType}-CDK-Test-Project`,
+      projectName: `${props.envName}-CDK-Test-Project`,
       buildSpec: codebuild.BuildSpec.fromObject(cdkBuildSpecTestConfig),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
@@ -118,8 +118,8 @@ export class CdkCodePipelineStack extends Stack {
 
     //トピックとサブスクリプションを作成
     const cdkSnsTopic = new sns.Topic(this, "CdkSnsTopic", {
-      displayName: `${props.envType}-cdk-sns-topic`,
-      topicName: `${props.envType}-cdk-sns-topic`,
+      displayName: `${props.envName}-cdk-sns-topic`,
+      topicName: `${props.envName}-cdk-sns-topic`,
     });
     new sns.Subscription(this, 'CdkSnsSubscription', {
       topic: cdkSnsTopic,
@@ -138,10 +138,10 @@ export class CdkCodePipelineStack extends Stack {
 
 
     //--------------CodeBuild（デプロイ）----------------
-    const cdkCodeBuildSpecDeployConfig = getCdkCodeBuildSpecDeployConfig(props.envType)
+    const cdkCodeBuildSpecDeployConfig = getCdkCodeBuildSpecDeployConfig(props.envName)
 
     const cdkDeployProject = new codebuild.PipelineProject(this, 'CDKDeployProject', {
-      projectName: `${props.envType}-CDK-Deploy-Project`,
+      projectName: `${props.envName}-CDK-Deploy-Project`,
       buildSpec: codebuild.BuildSpec.fromObject(cdkCodeBuildSpecDeployConfig),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,

@@ -1,10 +1,10 @@
-export type VpcConstructConfig = {
+export type NetworkConfig = {
   cidr: string, // VPCに割り当てるcidr
   maxAzs: number // VPCの最大AZ数
 }
 
-export function getVpcConstructConfig(envType: string): VpcConstructConfig {
-  switch (envType) {
+export function getNetworkConfig(envName: string): NetworkConfig {
+  switch (envName) {
     case 'dev':
       return {
         cidr: '10.0.0.0/16',
@@ -32,7 +32,7 @@ export function getVpcConstructConfig(envType: string): VpcConstructConfig {
       }
     default:
       throw new Error(
-        `The VPC config in "${envType}" environment does not exist.`
+        `NetworkConfig does not exist. envName:${envName}`
       )
   }
 }

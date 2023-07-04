@@ -5,8 +5,8 @@ export type CdkCodePipelineConfig = {
 }
 
 
-export function getCdkCodePipelineConfig(envType: string): CdkCodePipelineConfig {
-  switch (envType) {
+export function getCdkCodePipelineConfig(envName: string): CdkCodePipelineConfig {
+  switch (envName) {
     case 'dev':
       return {
         codeCommitBranchName: "main",
@@ -24,20 +24,20 @@ export function getCdkCodePipelineConfig(envType: string): CdkCodePipelineConfig
       }
     default:
       throw new Error(
-        `CDK CodePipeline config in "${envType}" environment are not exist.`
+        `CDK CodePipelineConfig does not exist. envName:${envName}`
       )
   }
 }
 
 
 // 対応する環境のBuildSpec(testおよびdiff)を取得する関数
-export function getCdkCodeBuildSpecTestConfig(envType: string) {
+export function getCdkCodeBuildSpecTestConfig(envName: string) {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'ENV_TYPE': envType,
+        'ENV_TYPE': envName,
       }
     },
     phases: {
@@ -72,13 +72,13 @@ export function getCdkCodeBuildSpecTestConfig(envType: string) {
 
 
 // 対応する環境のBuildSpec(cdk deploy)を取得する関数
-export function getCdkCodeBuildSpecDeployConfig(envType: string) {
+export function getCdkCodeBuildSpecDeployConfig(envName: string) {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'ENV_TYPE': envType,
+        'ENV_TYPE': envName,
       }
     },
     phases: {
