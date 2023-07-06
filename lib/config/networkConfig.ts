@@ -1,21 +1,23 @@
-export type NetworkConfig = {
+export interface NetworkConfig {
   cidr: string, // VPCに割り当てるcidr
   maxAzs: number // VPCの最大AZ数
 }
 
-export function getNetworkConfig(envName: string): NetworkConfig {
+export function createNetworkConfig(envName: string): NetworkConfig {
   switch (envName) {
     case 'dev':
       return {
         cidr: '10.0.0.0/16',
         maxAzs: 2
       }
+
+    // 中略
     case 'stg':
       return {
         cidr: '10.1.0.0/16',
         maxAzs: 2
       }
-    case 'prd':
+    case 'prod':
       return {
         cidr: '10.2.0.0/16',
         maxAzs: 2

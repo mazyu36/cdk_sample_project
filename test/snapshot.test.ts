@@ -15,8 +15,8 @@ test("snapshot test stg", () => {
 });
 
 
-// prdのsnapshotテスト
-test("snapshot test prd", () => {
-  const template = createTemplate('prd')
+// prodのsnapshotテスト
+test("snapshot test prod", () => {
+  const template = createTemplate('prod')
   expect(template.toJSON()).toMatchSnapshot();
 });

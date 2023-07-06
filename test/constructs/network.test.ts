@@ -1,9 +1,9 @@
 import { createTemplate } from "../createTemplate";
 
-describe("network test prd", () => {
+describe("network test prod", () => {
 
   test("VPC", () => {
-    const template = createTemplate('prd')
+    const template = createTemplate('prod')
 
     template.resourceCountIs('AWS::EC2::VPC', 1)
 
@@ -16,7 +16,7 @@ describe("network test prd", () => {
   )
 
   test("NatGateway", () => {
-    const template = createTemplate('prd')
+    const template = createTemplate('prod')
 
     template.resourceCountIs('AWS::EC2::NatGateway', 0)
   }
@@ -41,7 +41,7 @@ describe("network test stg", () => {
   )
 
   test("NatGateway", () => {
-    const template = createTemplate('prd')
+    const template = createTemplate('prod')
 
     template.resourceCountIs('AWS::EC2::NatGateway', 0)
   }

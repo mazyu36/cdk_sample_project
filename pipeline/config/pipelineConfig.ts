@@ -1,43 +1,10 @@
-
-export type CdkCodePipelineConfig = {
-  codeCommitBranchName: string,  // CI/CDパイプラインのトリガとなるブランチを指定
-  notifyEmail: string, //承認メールの通知先
-}
-
-
-export function getCdkCodePipelineConfig(envName: string): CdkCodePipelineConfig {
-  switch (envName) {
-    case 'dev':
-      return {
-        codeCommitBranchName: "main",
-        notifyEmail: "test@example.com",
-      }
-    case 'stg':
-      return {
-        codeCommitBranchName: "main",
-        notifyEmail: "test@example.com",
-      }
-    case 'prd':
-      return {
-        codeCommitBranchName: "main",
-        notifyEmail: "test@example.com",
-      }
-    default:
-      throw new Error(
-        `CDK CodePipelineConfig does not exist. envName:${envName}`
-      )
-  }
-}
-
-
-// 対応する環境のBuildSpec(testおよびdiff)を取得する関数
-export function getCdkCodeBuildSpecTestConfig(envName: string) {
+export function createCdkCodeBuildSpecTestConfig() {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'ENV_TYPE': envName,
+        'PIPELINE_ENABLED': 'true',
       }
     },
     phases: {
@@ -60,8 +27,7 @@ export function getCdkCodeBuildSpecTestConfig(envName: string) {
       },
       post_build: {
         commands: [
-          "npx cdk ls -c env=${ENV_TYPE}",
-          "npx cdk diff --all -c env=${ENV_TYPE}",
+          "npx cdk diff --all",
         ]
       }
     }
@@ -71,14 +37,13 @@ export function getCdkCodeBuildSpecTestConfig(envName: string) {
 }
 
 
-// 対応する環境のBuildSpec(cdk deploy)を取得する関数
-export function getCdkCodeBuildSpecDeployConfig(envName: string) {
+export function createCdkCodeBuildSpecDeployConfig() {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'ENV_TYPE': envName,
+        'PIPELINE_ENABLED': 'true',
       }
     },
     phases: {
@@ -98,7 +63,7 @@ export function getCdkCodeBuildSpecDeployConfig(envName: string) {
       },
       post_build: {
         commands: [
-          "npx cdk deploy --all  -c env=${ENV_TYPE} --require-approval never"
+          "npx cdk deploy --all --concurrency 3 --require-approval never"
         ]
       }
     }
