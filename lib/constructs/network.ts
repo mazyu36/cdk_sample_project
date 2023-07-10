@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { aws_ec2 as ec2 } from "aws-cdk-lib";
 
-import { getNetworkConfig, NetworkConfig } from "../config/networkConfig";
+import { createNetworkConfig, NetworkConfig } from "../config/networkConfig";
 
 export interface NetworkProps {
   envName: string
@@ -16,7 +16,7 @@ export class Network extends Construct {
     super(scope, id)
 
     // Constructの設定値を取得
-    const networkConfig: NetworkConfig = getNetworkConfig(props.envName)
+    const networkConfig: NetworkConfig = createNetworkConfig(props.envName)
 
     const vpc = new ec2.Vpc(this, 'Vpc', {
       ipAddresses: ec2.IpAddresses.cidr(networkConfig.cidr), // 環境により切替

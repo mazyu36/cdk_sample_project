@@ -1,10 +1,10 @@
 import { aws_ec2 as ec2 } from "aws-cdk-lib";
 
-export type ServerConfig = {
+export interface ServerConfig {
   instanceType: ec2.InstanceType
 }
 
-export function getServerConfig(envName: string): ServerConfig {
+export function createServerConfig(envName: string): ServerConfig {
   switch (envName) {
     case 'dev':
       return {
@@ -14,7 +14,7 @@ export function getServerConfig(envName: string): ServerConfig {
       return {
         instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE)
       }
-    case 'prd':
+    case 'prod':
       return {
         instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE)
       }

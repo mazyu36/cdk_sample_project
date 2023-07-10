@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { aws_ec2 as ec2 } from "aws-cdk-lib";
 
 import { Network } from './network';
-import { ServerConfig, getServerConfig } from '../config/serverConfig';
+import { ServerConfig, createServerConfig } from '../config/serverConfig';
 
 export interface ServerProps {
   envName: string
@@ -14,7 +14,7 @@ export class Server extends Construct {
     super(scope, id);
 
     // Constructの設定値を取得
-    const serverConfig: ServerConfig = getServerConfig(props.envName)
+    const serverConfig: ServerConfig = createServerConfig(props.envName)
 
     new ec2.Instance(this, "Instance", {
       vpc: props.network.vpc,

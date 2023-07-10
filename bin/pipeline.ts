@@ -2,23 +2,15 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CdkCodePipelineStack } from '../pipeline/pipelineStack';
-import { EnvConfig, getEnvConfig } from './config/envConfig';
 
 const app = new cdk.App();
 
-const envName = app.node.tryGetContext('env');
-
-if (envName === undefined)
-  throw new Error(`Please specify environment with context option. ex) cdk deploy -c env=dev`);
-
-const envConfig: EnvConfig = getEnvConfig(envName)
 
 new CdkCodePipelineStack(app, 'CDKPipelinesStack', {
-  stackName: `${envName}-CDK-CodePipeline-Stack`,
-  env: envConfig,
-  terminationProtection: true,
-  envName: envName
+  stackName: `CDK-CodePipeline-Stack`,
+  env: {
+    account: '024532196973',
+    region: 'ap-northeast-1'
+  },
+  terminationProtection: false,
 })
-
-const envTagName = 'Environment';
-cdk.Tags.of(app).add(envTagName, envName);

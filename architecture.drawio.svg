@@ -204,7 +204,7 @@
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 785px; margin-left: 755px;">
                         <div data-drawio-colors="color: #232F3E; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
                             <div style="display: inline-block; font-size: 20px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
-                                CodePipeline (prd)
+                                CodePipeline (prod)
                             </div>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                             <div style="display: inline-block; font-size: 20px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 CDK App
                                 <br style="font-size: 20px"/>
-                                (prd)
+                                (prod)
                             </div>
                         </div>
                     </div>
