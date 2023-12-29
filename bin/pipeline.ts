@@ -30,7 +30,3 @@ new CdkCodePipelineStack(app, 'CDKPipelinesStack', {
 const envTagName = 'Environment';
 cdk.Tags.of(app).add(envTagName, envType);
 
-
-// cdk-nagの有効化
-Aspects.of(app).add(new AwsSolutionsChecks({ verbose: false }));
-

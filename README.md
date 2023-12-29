@@ -36,3 +36,7 @@ AWS CDKをチーム開発する際の要素を組み合わせたサンプルプ�
 │   └── createTemplate.test.ts # テスト用のテンプレートを生成するための関数
 └── tsconfig.json
 ```
+
+## デプロイ方法
+* `app`を手動デプロイする場合は`cdk deploy -c env=環境名`でデプロイを行う。
+* `pipeline`をデプロイする場合は`cdk deploy --app "npx ts-node --prefer-ts-exts bin/pipeline.ts" -c env=環境名`でデプロイを行う。`pipeline`のデプロイ後はコードをプッシュするたびにCICDが行われる。
