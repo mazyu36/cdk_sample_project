@@ -14,25 +14,18 @@ exports[`snapshot test dev 1`] = `
     },
   },
   "Resources": {
-    "NetworkEC2SgD140AE73": {
-      "Properties": {
-        "GroupDescription": "Stack/Network/EC2Sg",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "from 0.0.0.0/0:ALL PORTS",
-            "FromPort": 0,
-            "IpProtocol": "tcp",
-            "ToPort": 65535,
-          },
-        ],
-        "VpcId": {
-          "Ref": "NetworkVpc7FB7348F",
+    "NetworkVpc7FB7348F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-VPC7",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBVlBD44OV44Ot44O844Ot44Kw5Ye65Yqb44Gv5pyq6Kit5a6a",
+            },
+          ],
         },
       },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "NetworkVpc7FB7348F": {
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
@@ -331,6 +324,32 @@ exports[`snapshot test dev 1`] = `
       "DependsOn": [
         "ServerInstanceInstanceRoleF9CE4B3B",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+            {
+              "id": "AwsSolutions-EC26",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBRUJT5pqX5Y+35YyW44Gv5pyq6Kit5a6a",
+            },
+            {
+              "id": "AwsSolutions-EC28",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB6Kmz57Sw44Oi44OL44K/44Oq44Oz44Kw44Gv44Kq44OV",
+            },
+            {
+              "id": "AwsSolutions-EC29",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB5YmK6Zmk5L+d6K2344Gv54Sh5Yq5",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -351,7 +370,7 @@ exports[`snapshot test dev 1`] = `
         "SecurityGroupIds": [
           {
             "Fn::GetAtt": [
-              "NetworkEC2SgD140AE73",
+              "ServerInstanceInstanceSecurityGroup1E14EB51",
               "GroupId",
             ],
           },
@@ -382,6 +401,17 @@ exports[`snapshot test dev 1`] = `
       "Type": "AWS::IAM::InstanceProfile",
     },
     "ServerInstanceInstanceRoleF9CE4B3B": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -417,6 +447,28 @@ exports[`snapshot test dev 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "ServerInstanceInstanceSecurityGroup1E14EB51": {
+      "Properties": {
+        "GroupDescription": "Stack/Server/Instance/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
     },
   },
   "Rules": {
@@ -463,25 +515,18 @@ exports[`snapshot test prod 1`] = `
     },
   },
   "Resources": {
-    "NetworkEC2SgD140AE73": {
-      "Properties": {
-        "GroupDescription": "Stack/Network/EC2Sg",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "from 0.0.0.0/0:ALL PORTS",
-            "FromPort": 0,
-            "IpProtocol": "tcp",
-            "ToPort": 65535,
-          },
-        ],
-        "VpcId": {
-          "Ref": "NetworkVpc7FB7348F",
+    "NetworkVpc7FB7348F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-VPC7",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBVlBD44OV44Ot44O844Ot44Kw5Ye65Yqb44Gv5pyq6Kit5a6a",
+            },
+          ],
         },
       },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "NetworkVpc7FB7348F": {
       "Properties": {
         "CidrBlock": "10.2.0.0/16",
         "EnableDnsHostnames": true,
@@ -780,6 +825,32 @@ exports[`snapshot test prod 1`] = `
       "DependsOn": [
         "ServerInstanceInstanceRoleF9CE4B3B",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+            {
+              "id": "AwsSolutions-EC26",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBRUJT5pqX5Y+35YyW44Gv5pyq6Kit5a6a",
+            },
+            {
+              "id": "AwsSolutions-EC28",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB6Kmz57Sw44Oi44OL44K/44Oq44Oz44Kw44Gv44Kq44OV",
+            },
+            {
+              "id": "AwsSolutions-EC29",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB5YmK6Zmk5L+d6K2344Gv54Sh5Yq5",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -800,7 +871,7 @@ exports[`snapshot test prod 1`] = `
         "SecurityGroupIds": [
           {
             "Fn::GetAtt": [
-              "NetworkEC2SgD140AE73",
+              "ServerInstanceInstanceSecurityGroup1E14EB51",
               "GroupId",
             ],
           },
@@ -831,6 +902,17 @@ exports[`snapshot test prod 1`] = `
       "Type": "AWS::IAM::InstanceProfile",
     },
     "ServerInstanceInstanceRoleF9CE4B3B": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -866,6 +948,28 @@ exports[`snapshot test prod 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "ServerInstanceInstanceSecurityGroup1E14EB51": {
+      "Properties": {
+        "GroupDescription": "Stack/Server/Instance/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
     },
   },
   "Rules": {
@@ -912,25 +1016,18 @@ exports[`snapshot test stg 1`] = `
     },
   },
   "Resources": {
-    "NetworkEC2SgD140AE73": {
-      "Properties": {
-        "GroupDescription": "Stack/Network/EC2Sg",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "from 0.0.0.0/0:ALL PORTS",
-            "FromPort": 0,
-            "IpProtocol": "tcp",
-            "ToPort": 65535,
-          },
-        ],
-        "VpcId": {
-          "Ref": "NetworkVpc7FB7348F",
+    "NetworkVpc7FB7348F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-VPC7",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBVlBD44OV44Ot44O844Ot44Kw5Ye65Yqb44Gv5pyq6Kit5a6a",
+            },
+          ],
         },
       },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "NetworkVpc7FB7348F": {
       "Properties": {
         "CidrBlock": "10.1.0.0/16",
         "EnableDnsHostnames": true,
@@ -1229,6 +1326,32 @@ exports[`snapshot test stg 1`] = `
       "DependsOn": [
         "ServerInstanceInstanceRoleF9CE4B3B",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+            {
+              "id": "AwsSolutions-EC26",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KBRUJT5pqX5Y+35YyW44Gv5pyq6Kit5a6a",
+            },
+            {
+              "id": "AwsSolutions-EC28",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB6Kmz57Sw44Oi44OL44K/44Oq44Oz44Kw44Gv44Kq44OV",
+            },
+            {
+              "id": "AwsSolutions-EC29",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB5YmK6Zmk5L+d6K2344Gv54Sh5Yq5",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -1249,7 +1372,7 @@ exports[`snapshot test stg 1`] = `
         "SecurityGroupIds": [
           {
             "Fn::GetAtt": [
-              "NetworkEC2SgD140AE73",
+              "ServerInstanceInstanceSecurityGroup1E14EB51",
               "GroupId",
             ],
           },
@@ -1280,6 +1403,17 @@ exports[`snapshot test stg 1`] = `
       "Type": "AWS::IAM::InstanceProfile",
     },
     "ServerInstanceInstanceRoleF9CE4B3B": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "is_reason_encoded": true,
+              "reason": "44K144Oz44OX44Or44Gu44Gf44KB44Oe44ON44O844K444OJ44Od44Oq44K344O844KS5L2/55So",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -1315,6 +1449,28 @@ exports[`snapshot test stg 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "ServerInstanceInstanceSecurityGroup1E14EB51": {
+      "Properties": {
+        "GroupDescription": "Stack/Server/Instance/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stack/Server/Instance",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
     },
   },
   "Rules": {

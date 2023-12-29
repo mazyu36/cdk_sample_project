@@ -10,8 +10,6 @@ export function createNetworkConfig(envName: string): NetworkConfig {
         cidr: '10.0.0.0/16',
         maxAzs: 2
       }
-
-    // 中略
     case 'stg':
       return {
         cidr: '10.1.0.0/16',

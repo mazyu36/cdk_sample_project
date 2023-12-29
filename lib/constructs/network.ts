@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { aws_ec2 as ec2 } from "aws-cdk-lib";
-
 import { createNetworkConfig, NetworkConfig } from "../config/networkConfig";
+import { NagSuppressions } from "cdk-nag";
 
 export interface NetworkProps {
   envName: string
@@ -10,7 +10,6 @@ export interface NetworkProps {
 
 export class Network extends Construct {
   public readonly vpc: ec2.Vpc
-  public readonly ec2SecurityGroup: ec2.SecurityGroup
 
   constructor(scope: Construct, id: string, props: NetworkProps) {
     super(scope, id)
@@ -27,13 +26,13 @@ export class Network extends Construct {
     )
     this.vpc = vpc
 
+    // cdk-nagの抑止
+    NagSuppressions.addResourceSuppressions(vpc,
+      [
+        { id: "AwsSolutions-VPC7", reason: "サンプルのためVPCフローログ出力は未設定" },
+      ]
+    )
 
-    const sg = new ec2.SecurityGroup(this, 'EC2Sg', {
-      vpc: vpc,
-      allowAllOutbound: false,
-    })
-    sg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp())
 
-    this.ec2SecurityGroup = sg
   }
 }

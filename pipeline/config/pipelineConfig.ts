@@ -1,10 +1,42 @@
-export function createCdkCodeBuildSpecTestConfig() {
+export type CdkCodePipelineConfig = {
+  codeCommitBranchName: string,  // CI/CDパイプラインのトリガとなるブランチを指定
+  notifyEmail: string, //承認メールの通知先
+}
+
+
+export function createCdkCodePipelineConfig(envType: string): CdkCodePipelineConfig {
+  switch (envType) {
+    case 'dev':
+      return {
+        codeCommitBranchName: "main",
+        notifyEmail: "test@example.com",
+      }
+    case 'stg':
+      return {
+        codeCommitBranchName: "main",
+        notifyEmail: "test@example.com",
+      }
+    case 'prd':
+      return {
+        codeCommitBranchName: "main",
+        notifyEmail: "test@example.com",
+      }
+    default:
+      throw new Error(
+        `CDK CodePipeline config in "${envType}" environment are not exist.`
+      )
+  }
+}
+
+
+// 対応する環境のBuildSpec(testおよびdiff)を取得する関数
+export function createCdkCodeBuildSpecTestConfig(envType: string) {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'PIPELINE_ENABLED': 'true',
+        'ENV_TYPE': envType,
       }
     },
     phases: {
@@ -27,7 +59,8 @@ export function createCdkCodeBuildSpecTestConfig() {
       },
       post_build: {
         commands: [
-          "npx cdk diff --all",
+          "npx cdk ls -c env=${ENV_TYPE}",
+          "npx cdk diff --all -c env=${ENV_TYPE}",
         ]
       }
     }
@@ -37,13 +70,14 @@ export function createCdkCodeBuildSpecTestConfig() {
 }
 
 
-export function createCdkCodeBuildSpecDeployConfig() {
+// 対応する環境のBuildSpec(cdk deploy)を取得する関数
+export function createCdkCodeBuildSpecDeployConfig(envType: string) {
 
   const buildSpecConfig = {
     version: 0.2,
     env: {
       variables: {
-        'PIPELINE_ENABLED': 'true',
+        'ENV_TYPE': envType,
       }
     },
     phases: {
@@ -63,7 +97,7 @@ export function createCdkCodeBuildSpecDeployConfig() {
       },
       post_build: {
         commands: [
-          "npx cdk deploy --all --concurrency 3 --require-approval never"
+          "npx cdk deploy --all  -c env=${ENV_TYPE} --require-approval never"
         ]
       }
     }

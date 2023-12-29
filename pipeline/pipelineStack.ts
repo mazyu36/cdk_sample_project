@@ -11,18 +11,18 @@ import { aws_codepipeline as codepipeline } from 'aws-cdk-lib';
 import { aws_codepipeline_actions as codepipeline_actions } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib';
 
-import { createCdkCodeBuildSpecDeployConfig, createCdkCodeBuildSpecTestConfig } from "./config/pipelineConfig";
+import { createCdkCodeBuildSpecDeployConfig, createCdkCodeBuildSpecTestConfig, createCdkCodePipelineConfig } from "./config/pipelineConfig";
 
 interface CdkCodePipelineStackProps extends StackProps {
+  envType: string,
 }
 
 export class CdkCodePipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: CdkCodePipelineStackProps) {
     super(scope, id, props);
 
-    const repositoryName = 'cdk_cicd'
-    const branchName = 'feature_concurrency'
-    const email = 'test@example.com'
+    // Configを取得
+    const cdkCodePipelineConfig = createCdkCodePipelineConfig(props.envType)
 
     //--------------CodePipelineを定義----------------
     // kmsキーを作成
@@ -33,18 +33,20 @@ export class CdkCodePipelineStack extends Stack {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.KMS,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      bucketName: `${props.envType}-bucket-cdk-codepipeline-artifact`,
       autoDeleteObjects: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
     const cdkCodePipeline = new codepipeline.Pipeline(this, 'CDKPipeline', {
+      pipelineName: `${props.envType}-CDK-CodePipeline`,
       artifactBucket: cdkArtifactBucket
     });
 
 
     //--------------CodeCommit----------------
     // TODO CodeCommitリポジトリは事前に手動で作成しておく
-    const cdkRepository = codecommit.Repository.fromRepositoryName(this, 'CDKRepository', 'cdk-pipeline-concurrency')
+    const cdkRepository = codecommit.Repository.fromRepositoryName(this, 'CDKRepository', 'cdk-pipeline-test')
 
     // CodePipelineにStageを追加
     const sourceStage = cdkCodePipeline.addStage({
@@ -56,7 +58,7 @@ export class CdkCodePipelineStack extends Stack {
     const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
       actionName: 'Source',
       repository: cdkRepository,
-      branch: branchName,
+      branch: cdkCodePipelineConfig.codeCommitBranchName,
       output: sourceOutput
     });
 
@@ -77,9 +79,10 @@ export class CdkCodePipelineStack extends Stack {
 
 
     //--------------CodeBuild（テスト）----------------
-    const cdkBuildSpecTestConfig = createCdkCodeBuildSpecTestConfig()
+    const cdkBuildSpecTestConfig = createCdkCodeBuildSpecTestConfig(props.envType)
 
     const cdkTestProject = new codebuild.PipelineProject(this, 'CDKTestProject', {
+      projectName: `${props.envType}-CDK-Test-Project`,
       buildSpec: codebuild.BuildSpec.fromObject(cdkBuildSpecTestConfig),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
@@ -115,10 +118,12 @@ export class CdkCodePipelineStack extends Stack {
 
     //トピックとサブスクリプションを作成
     const cdkSnsTopic = new sns.Topic(this, "CdkSnsTopic", {
+      displayName: `${props.envType}-cdk-sns-topic`,
+      topicName: `${props.envType}-cdk-sns-topic`,
     });
     new sns.Subscription(this, 'CdkSnsSubscription', {
       topic: cdkSnsTopic,
-      endpoint: email,
+      endpoint: cdkCodePipelineConfig.notifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
     });
 
@@ -133,9 +138,10 @@ export class CdkCodePipelineStack extends Stack {
 
 
     //--------------CodeBuild（デプロイ）----------------
-    const cdkCodeBuildSpecDeployConfig = createCdkCodeBuildSpecDeployConfig()
+    const cdkCodeBuildSpecDeployConfig = createCdkCodeBuildSpecDeployConfig(props.envType)
 
     const cdkDeployProject = new codebuild.PipelineProject(this, 'CDKDeployProject', {
+      projectName: `${props.envType}-CDK-Deploy-Project`,
       buildSpec: codebuild.BuildSpec.fromObject(cdkCodeBuildSpecDeployConfig),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
